@@ -76,6 +76,11 @@ public interface KClass<T : Any> : KDeclarationContainer, KAnnotatedElement, KCl
     /**
      * TODO
      */
+    public val visibility: KVisibility?
+
+    /**
+     * TODO
+     */
     public val isFinal: Boolean
 
     public val isOpen: Boolean

@@ -66,6 +66,11 @@ public interface KCallable<out R> : KAnnotatedElement {
     /**
      * TODO
      */
+    public val visibility: KVisibility?
+
+    /**
+     * TODO
+     */
     public val isFinal: Boolean
 
     public val isOpen: Boolean
