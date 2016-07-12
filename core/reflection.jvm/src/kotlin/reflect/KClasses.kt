@@ -18,6 +18,8 @@
 package kotlin.reflect
 
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
+import org.jetbrains.kotlin.types.typeUtil.isSubtypeOf
+import org.jetbrains.kotlin.utils.DFS
 import kotlin.reflect.jvm.internal.KClassImpl
 import kotlin.reflect.jvm.internal.KFunctionImpl
 import kotlin.reflect.jvm.internal.KTypeImpl
@@ -167,3 +169,66 @@ val <T : Any> KClass<T>.declaredMemberExtensionProperties: Collection<KProperty2
             .getMembers(memberScope, declaredOnly = true, nonExtensions = false, extensions = true)
             .filterIsInstance<KProperty2<T, *, *>>()
             .toList()
+
+
+/**
+ * TODO
+ */
+val KClass<*>.superclasses: List<KClass<*>>
+    get() = supertypes.mapNotNull { it.classifier as? KClass<*> }
+
+/**
+ * TODO
+ */
+val KClass<*>.allSupertypes: Collection<KType>
+    // TODO: ensure result doesn't contain 'this'
+    get() = DFS.dfsFromNode(
+            defaultType,
+            DFS.Neighbors { current ->
+                // TODO: perform type substitution along the way
+                (current.classifier as? KClass<*>)?.supertypes.orEmpty()
+            },
+            DFS.VisitedWithSet(),
+            object : DFS.NodeHandlerWithSetResult<KType, KType>() {
+                override fun beforeChildren(current: KType): Boolean {
+                    result.add(current)
+                    return true
+                }
+            }
+    )
+
+/**
+ * TODO
+ */
+val KClass<*>.allSuperclasses: Collection<KClass<*>>
+    get() = allSupertypes.mapNotNull { it.classifier as? KClass<*> }
+
+/**
+ * TODO
+ */
+fun KClass<*>.isSuperclassOf(derived: KClass<*>): Boolean {
+    // TODO: performance
+    return this == derived || this in derived.allSuperclasses
+}
+
+/**
+ * TODO
+ */
+fun KClass<*>.isSubclassOf(base: KClass<*>): Boolean {
+    // TODO: performance
+    return this == base || base in this.allSuperclasses
+}
+
+/**
+ * TODO
+ */
+fun KType.isSubtypeOf(other: KType): Boolean {
+    return (this as KTypeImpl).type.isSubtypeOf((other as KTypeImpl).type)
+}
+
+/**
+ * TODO
+ */
+fun KType.isSupertypeOf(other: KType): Boolean {
+    return (other as KTypeImpl).type.isSubtypeOf((this as KTypeImpl).type)
+}
