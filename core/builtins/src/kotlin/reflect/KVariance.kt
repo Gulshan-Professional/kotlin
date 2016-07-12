@@ -19,19 +19,19 @@ package kotlin.reflect
 /**
  * TODO
  */
-public interface KTypeParameter : KClassifier {
+enum class KVariance {
     /**
      * TODO
      */
-    public val name: String
+    INVARIANT,
 
     /**
      * TODO
      */
-    public val upperBounds: List<KType>
+    IN,
 
     /**
      * TODO
      */
-    public val variance: KVariance
+    OUT,
 }
