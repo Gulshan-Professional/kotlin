@@ -61,6 +61,11 @@ public interface KClass<T : Any> : KDeclarationContainer, KAnnotatedElement, KCl
     /**
      * TODO
      */
+    public fun isInstance(value: Any?): Boolean
+
+    /**
+     * TODO
+     */
     public val typeParameters: List<KTypeParameter>
 
     /**

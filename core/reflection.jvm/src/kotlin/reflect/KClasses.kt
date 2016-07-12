@@ -232,3 +232,21 @@ fun KType.isSubtypeOf(other: KType): Boolean {
 fun KType.isSupertypeOf(other: KType): Boolean {
     return (other as KTypeImpl).type.isSubtypeOf((this as KTypeImpl).type)
 }
+
+
+/**
+ * TODO
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T : Any> KClass<T>.cast(value: Any?): T {
+    if (!isInstance(value)) throw TypeCastException("Value cannot be cast to $qualifiedName")
+    return value as T
+}
+
+/**
+ * TODO
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T : Any> KClass<T>.safeCast(value: Any?): T? {
+    return if (isInstance(value)) value as T else null
+}
