@@ -69,4 +69,15 @@ public interface KParameter : KAnnotatedElement {
      * 2. The parameter is declared in a member function and one of the corresponding parameters in the super functions is optional.
      */
     public val isOptional: Boolean
+
+    /**
+     * TODO
+     */
+    public val isVararg: Boolean
+
+    public val isNoinline: Boolean
+
+    public val isCrossinline: Boolean
+
+    public val isCoroutine: Boolean
 }

@@ -25,6 +25,16 @@ package kotlin.reflect
  * @param R the type of the property.
  */
 public interface KProperty<out R> : KCallable<R> {
+    /**
+     * TODO
+     */
+    public val isLateinit: Boolean
+
+    /**
+     * TODO
+     */
+    public val isConst: Boolean
+
     /** The getter of this property, used to obtain the value of the property. */
     public val getter: Getter<R>
 

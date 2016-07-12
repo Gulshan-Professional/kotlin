@@ -34,4 +34,9 @@ public interface KTypeParameter : KClassifier {
      * TODO
      */
     public val variance: KVariance
+
+    /**
+     * TODO
+     */
+    public val isReified: Boolean
 }

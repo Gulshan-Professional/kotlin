@@ -19,4 +19,19 @@ package kotlin.reflect
 /**
  * Represents a function with introspection capabilities.
  */
-public interface KFunction<out R> : KCallable<R>, Function<R>
+public interface KFunction<out R> : KCallable<R>, Function<R> {
+    /**
+     * TODO
+     */
+    public val isInline: Boolean
+
+    public val isExternal: Boolean
+
+    public val isOperator: Boolean
+
+    public val isInfix: Boolean
+
+    public val isTailrec: Boolean
+
+    public val isSuspend: Boolean
+}

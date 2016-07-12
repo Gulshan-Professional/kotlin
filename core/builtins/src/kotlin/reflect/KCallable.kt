@@ -62,4 +62,13 @@ public interface KCallable<out R> : KAnnotatedElement {
      * or its type does not match the type of the provided value, an exception is thrown.
      */
     public fun callBy(args: Map<KParameter, Any?>): R
+
+    /**
+     * TODO
+     */
+    public val isFinal: Boolean
+
+    public val isOpen: Boolean
+
+    public val isAbstract: Boolean
 }
