@@ -22,9 +22,14 @@ import org.jetbrains.kotlin.descriptors.TypeParameterDescriptor
 import org.jetbrains.kotlin.load.java.structure.reflect.createArrayType
 import org.jetbrains.kotlin.load.java.structure.reflect.primitiveByWrapper
 import org.jetbrains.kotlin.types.KotlinType
+import org.jetbrains.kotlin.types.Variance
+import java.lang.reflect.GenericArrayType
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import kotlin.reflect.KClassifier
 import kotlin.reflect.KType
+import kotlin.reflect.KTypeProjection
+import kotlin.reflect.KotlinReflectionInternalError
 
 internal class KTypeImpl(
         val type: KotlinType,
@@ -62,6 +67,34 @@ internal class KTypeImpl(
             else -> return null
         }
     }
+
+    override val arguments: List<KTypeProjection>
+        get() = type.arguments.mapIndexed { i, typeProjection ->
+            if (typeProjection.isStarProjection) {
+                KTypeProjection.Star
+            }
+            else {
+                val type = KTypeImpl(typeProjection.type) {
+                    val javaType = javaType
+                    when (javaType) {
+                        is GenericArrayType -> {
+                            if (i != 0) throw KotlinReflectionInternalError("Array type has been queried for a non-0th argument: $this")
+                            javaType.genericComponentType
+                        }
+                        is ParameterizedType -> {
+                            // TODO: this is cloned every time
+                            javaType.actualTypeArguments[i]
+                        }
+                        else -> throw KotlinReflectionInternalError("Non-generic type has been queried for arguments: $this")
+                    }
+                }
+                when (typeProjection.projectionKind) {
+                    Variance.INVARIANT -> KTypeProjection.Invariant(type)
+                    Variance.IN_VARIANCE -> KTypeProjection.In(type)
+                    Variance.OUT_VARIANCE -> KTypeProjection.Out(type)
+                }
+            }
+        }
 
     override val isMarkedNullable: Boolean
         get() = type.isMarkedNullable

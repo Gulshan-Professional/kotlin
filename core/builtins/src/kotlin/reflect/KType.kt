@@ -44,4 +44,42 @@ public interface KType {
      * TODO
      */
     public val classifier: KClassifier?
+
+    /**
+     * TODO
+     */
+    public val arguments: List<KTypeProjection>
+}
+
+/**
+ * TODO
+ */
+public sealed class KTypeProjection {
+    /**
+     * TODO
+     */
+    abstract val type: KType?
+
+    /**
+     * TODO
+     */
+    class Invariant(override val type: KType) : KTypeProjection()
+
+    /**
+     * TODO
+     */
+    class In(override val type: KType) : KTypeProjection()
+
+    /**
+     * TODO
+     */
+    class Out(override val type: KType) : KTypeProjection()
+
+    /**
+     * TODO
+     */
+    object Star : KTypeProjection() {
+        override val type: KType?
+            get() = null
+    }
 }
