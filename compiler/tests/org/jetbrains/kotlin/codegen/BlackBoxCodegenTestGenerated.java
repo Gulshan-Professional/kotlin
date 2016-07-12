@@ -12678,6 +12678,18 @@ public class BlackBoxCodegenTestGenerated extends AbstractBlackBoxCodegenTest {
                 KotlinTestUtils.assertAllTestsPresentByMetadata(this.getClass(), new File("compiler/testData/codegen/box/reflection/types"), Pattern.compile("^(.+)\\.kt$"), true);
             }
 
+            @TestMetadata("classifier.kt")
+            public void testClassifier() throws Exception {
+                String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/codegen/box/reflection/types/classifier.kt");
+                doTest(fileName);
+            }
+
+            @TestMetadata("classifiersOfBuiltInTypes.kt")
+            public void testClassifiersOfBuiltInTypes() throws Exception {
+                String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/codegen/box/reflection/types/classifiersOfBuiltInTypes.kt");
+                doTest(fileName);
+            }
+
             @TestMetadata("platformTypeNotEqualToKotlinType.kt")
             public void testPlatformTypeNotEqualToKotlinType() throws Exception {
                 String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/codegen/box/reflection/types/platformTypeNotEqualToKotlinType.kt");

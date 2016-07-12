@@ -39,4 +39,9 @@ public interface KType {
      * ```
      */
     public val isMarkedNullable: Boolean
+
+    /**
+     * TODO
+     */
+    public val classifier: KClassifier?
 }
