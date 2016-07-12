@@ -59,6 +59,11 @@ public interface KClass<T : Any> : KDeclarationContainer, KAnnotatedElement, KCl
     public val objectInstance: T?
 
     /**
+     * TODO
+     */
+    public val typeParameters: List<KTypeParameter>
+
+    /**
      * Returns `true` if [other] is a [KClass] instance representing the same class on a given platform.
      *
      * On JVM this means that the given instance is backed by the same [Class] object as this one. In particular, it requires
