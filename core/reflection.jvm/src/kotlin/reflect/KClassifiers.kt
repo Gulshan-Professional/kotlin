@@ -75,3 +75,17 @@ private fun createKotlinType(
         }
     }, nullable)
 }
+
+/**
+ * TODO
+ */
+val KClassifier.starProjectedType: KType
+    get() {
+        val descriptor = (this as? KClassifierImpl)?.descriptor
+                         ?: return createType()
+
+        val typeParameters = descriptor.typeConstructor.parameters
+        if (typeParameters.isEmpty()) return createType() // TODO: optimize, get defaultType from ClassDescriptor
+
+        return createType(typeParameters.map { KTypeProjection.Star })
+    }
